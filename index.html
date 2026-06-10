@@ -134,7 +134,8 @@
 
   /* FOTO HERO */
   .hero-photo {
-    width: min(92vw, 320px);
+    width: 100%;
+    max-width: 320px;
     height: auto;
     aspect-ratio: 1 / 1;
     border-radius: 28px;
@@ -142,8 +143,9 @@
     object-fit: cover;
     margin: 0 auto 32px;
     display: block;
+    align-self: center;
     box-shadow: 0 0 40px rgba(192,0,58,0.4);
-    background: #1a0008 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='80' x='10'%3E📷%3C/text%3E%3C/svg%3E") center/60% no-repeat;
+    background: #1a0008 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='80' x='10'%3E📷%3C/text%3E%3C/svg%3E") center/20% no-repeat;
   }
 
   .hero-names {
@@ -326,6 +328,21 @@
     margin-top: 12px;
   }
 
+  .btn-youtube {
+    margin-top: 14px;
+    border: 1px solid #3a0015;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #c0003a, #e8002a);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 14px;
+    cursor: pointer;
+    box-shadow: 0 10px 18px rgba(192,0,58,0.18);
+  }
+
+  .btn-youtube:hover { transform: translateY(-1px); }
+
   /* ===== GALERIA ===== */
   .gallery-section {
     padding: 40px 0 40px 0;
@@ -427,6 +444,19 @@
     align-items: center;
     justify-content: center;
   }
+  .photo-modal-nav {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    background: rgba(42,0,16,0.92);
+    border: 1px solid #3a0015;
+    color: #fff;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .photo-modal-nav.prev { left: 18px; }
+  .photo-modal-nav.next { right: 18px; }
   .photo-modal-caption {
     position: absolute;
     bottom: 40px;
@@ -621,6 +651,31 @@
   }
   .quiz-restart:hover { background: #e8002a; }
 
+  /* ===== JOGO EXTRA ===== */
+  .memory-game-card {
+    background: #150006;
+    border: 1px solid #3a0015;
+    border-radius: 20px;
+    padding: 20px;
+  }
+  .memory-status {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; margin-bottom: 12px; color: #f5c6cb; font-size: 13px;
+  }
+  .memory-board {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  }
+  .memory-card {
+    aspect-ratio: 1 / 1; border-radius: 14px; border: 1px solid #3a0015;
+    background: linear-gradient(145deg, #2a0010, #1a0008); color: #fff;
+    font-size: 28px; cursor: pointer; display: grid; place-items: center;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .memory-card:hover { border-color: #c0003a; transform: translateY(-1px); }
+  .memory-card.flipped { background: #200010; border-color: #c0003a; }
+  .memory-card.matched { background: #0a200a; border-color: #2a7a2a; }
+  .memory-card.locked { pointer-events: none; }
+
   /* ===== VIDEO ===== */
   .video-section {
     padding: 40px 24px;
@@ -695,9 +750,11 @@
 </div>
 
 <!-- MODAL FOTO -->
-<div class="photo-modal" id="photoModal" onclick="closeModal()">
-  <button class="photo-modal-close">✕</button>
+<div class="photo-modal" id="photoModal" onclick="if (event.target.id === 'photoModal') closeModal()">
+  <button class="photo-modal-close" onclick="closeModal()" type="button" aria-label="Fechar foto">✕</button>
+  <button class="photo-modal-nav prev" onclick="changePhoto(-1); event.stopPropagation();" type="button" aria-label="Foto anterior">←</button>
   <img id="modalImg" src="" alt="">
+  <button class="photo-modal-nav next" onclick="changePhoto(1); event.stopPropagation();" type="button" aria-label="Próxima foto">→</button>
   <p class="photo-modal-caption" id="modalCaption"></p>
 </div>
 
@@ -773,7 +830,8 @@
       <div class="music-progress-bar" id="progressBar" onclick="seekMusic(event)">
         <div class="music-progress-fill" id="progressFill"></div>
       </div>
-      <p class="music-hint">💡 Adicione o link do YouTube ou o arquivo .mp3 no código</p>
+      <button class="btn-youtube" onclick="openYouTubeMusic()" type="button">🎧 Ouvir no YouTube Music</button>
+      <p class="music-hint" id="musicHint">💡 Clique para abrir a trilha no YouTube Music</p>
     </div>
   </section>
 
@@ -831,6 +889,19 @@
     </div>
   </section>
 
+  <!-- JOGO EXTRA -->
+  <section class="quiz-section">
+    <p class="section-eyebrow">🎮 Jogo Extra</p>
+    <h2 class="section-title">Jogo da Memória do Coração</h2>
+    <div class="memory-game-card">
+      <div class="memory-status">
+        <strong id="memoryStatus">Encontre os pares de emojis</strong>
+        <span id="memoryMoves">0 jogadas</span>
+      </div>
+      <div class="memory-board" id="memoryBoard"></div>
+    </div>
+  </section>
+
   <!-- VÍDEO -->
   <section class="video-section">
     <p class="section-eyebrow">🎬 Nosso Vídeo</p>
@@ -868,25 +939,23 @@ const CONFIG = {
   dataInicio: new Date(2020, 10, 15),  // 15 de novembro de 2020
 
   // MÚSICA
-  // Opção A: mp3 local  → musicSrc: "musica.mp3"
-  // Opção B: YouTube    → cole o link do YouTube abaixo (só funciona se o vídeo permitir embed)
   musicaSong: "Farol das Estrelas",   // ← nome da música
   musicaArtist: "belo",                  // ← nome do artista
-  musicaSrc: "",                  // ← caminho do .mp3 (ex: "nossa_musica.mp3") — deixe "" para demo
+  musicaSrc: "Farol-das-Estrelas_Media.mp3",                  // ← arquivo MP3 local na pasta do projeto
+  musicaLink: "https://music.youtube.com/search?q=Farol%20das%20Estrelas%20belo",
 
   // CARTA: assinar com
   cartaAssinatura: "Com todo meu amor ❤️",  // ← edite
 
   // TEXTO DA CARTA (use \n\n para parágrafos)
   cartaTexto: `Amor meu,
+  Quem diria que aquele garoto de 19 anos chegaria até aqui? Olho para trás e lembro de tantas batalhas... De quando moramos na casa dos seus pais, de eu trabalhando na capital, enfrentando 140 km de estrada todos os dias só para conseguir dormir ao seu lado. Lembro do aperto, de ganhar pouco, mas da certeza absoluta de que não deixaria faltar nada para nós.
 
-Quem diria que aquele garoto de 19 anos chegaria até aqui? Olho para trás e lembro de tantas batalhas... De quando moramos na casa dos seus pais, de eu trabalhando na capital, enfrentando 140 km de estrada todos os dias só para conseguir dormir ao seu lado. Lembro do aperto, de ganhar pouco, mas da certeza absoluta de que não deixaria faltar nada para nós.
+  E hoje, ver a gente na nossa própria casa, passando nossos dias juntos, me faz perceber que a palavra que mais define o que sinto é admiração.
 
-E hoje, ver a gente na nossa própria casa, passando nossos dias juntos, me faz perceber que a palavra que mais define o que sinto é admiração.
+  Eu admiro, todos os dias, a mulher incrível, forte, linda, sensível, compreensiva e gigante que você é. Você é a minha inspiração para bater de frente com qualquer problema e vencer por nós. Obrigado por ter confiado naquele garoto e por construir, lado a lado comigo, a família que é o nosso maior orgulho. Eu te escolho hoje, amanhã e em todos os dias que ainda virão.
 
-Eu admiro, todos os dias, a mulher incrível, forte, linda, sensível, compreensiva e gigante que você é. Você é a minha inspiração para bater de frente com qualquer problema e vencer por nós. Obrigado por ter confiado naquele garoto e por construir, lado a lado comigo, a família que é o nosso maior orgulho. Eu te escolho hoje, amanhã e em todos os dias que ainda virão.
-
-Com todo o meu amor ❤️`,
+  Com todo o meu amor ❤️`,
 
   // FOTOS DA GALERIA
   // Para cada foto: { src: "foto1.jpg", caption: "Legenda" }
@@ -985,6 +1054,7 @@ function init() {
   buildTimeline();
   startCounter();
   buildQuiz();
+  initMemoryGame();
   setupMusic();
   startPetals();
 }
@@ -1004,6 +1074,8 @@ function applyConfig() {
 /* =====================================================
    📷  GALERIA
    ===================================================== */
+let currentPhotoIndex = 0;
+
 function buildGallery() {
   const container = document.getElementById('galleryScroll');
   container.innerHTML = '';
@@ -1015,7 +1087,7 @@ function buildGallery() {
         <img src="${f.src}" alt="Foto ${i+1}" onerror="this.parentElement.innerHTML=fallbackPhoto(${i})">
         <div class="gallery-caption"><p>${f.caption}</p></div>
       `;
-      div.onclick = () => openModal(f.src, f.caption);
+      div.onclick = () => openModal(i);
     } else {
       div.innerHTML = `
         <div class="gallery-placeholder">
@@ -1032,14 +1104,35 @@ function fallbackPhoto(i) {
   return `<div class="gallery-placeholder"><div class="icon">📷</div><div class="lbl">Foto ${i+1}</div></div>`;
 }
 
-function openModal(src, caption) {
-  document.getElementById('modalImg').src = src;
-  document.getElementById('modalCaption').textContent = caption;
+function openModal(index) {
+  currentPhotoIndex = index;
+  showPhoto(index);
   document.getElementById('photoModal').classList.add('open');
 }
+
+function showPhoto(index) {
+  const photo = CONFIG.fotos[index];
+  if (!photo) return;
+  document.getElementById('modalImg').src = photo.src;
+  document.getElementById('modalCaption').textContent = photo.caption;
+}
+
+function changePhoto(step) {
+  currentPhotoIndex = (currentPhotoIndex + step + CONFIG.fotos.length) % CONFIG.fotos.length;
+  showPhoto(currentPhotoIndex);
+}
+
 function closeModal() {
   document.getElementById('photoModal').classList.remove('open');
 }
+
+document.addEventListener('keydown', (event) => {
+  const modal = document.getElementById('photoModal');
+  if (!modal.classList.contains('open')) return;
+  if (event.key === 'Escape') closeModal();
+  if (event.key === 'ArrowLeft') changePhoto(-1);
+  if (event.key === 'ArrowRight') changePhoto(1);
+});
 
 /* =====================================================
    📅  LINHA DO TEMPO
@@ -1091,18 +1184,25 @@ let progressInterval;
 
 function setupMusic() {
   const audio = document.getElementById('audioPlayer');
+  const hint = document.getElementById('musicHint');
   if (CONFIG.musicaSrc) {
     audio.src = CONFIG.musicaSrc;
-    document.querySelector('.music-hint').textContent = '▶ Toque para ouvir nossa música';
+    hint.textContent = '▶ Toque para ouvir nossa música';
+  } else {
+    hint.textContent = '💡 Clique para abrir a trilha no YouTube Music';
   }
   audio.addEventListener('timeupdate', updateProgress);
   audio.addEventListener('ended', () => { isPlaying = false; updatePlayBtn(); document.getElementById('musicCover').classList.remove('spinning'); });
 }
 
+function openYouTubeMusic() {
+  window.open(CONFIG.musicaLink || 'https://music.youtube.com', '_blank', 'noopener');
+}
+
 function togglePlay() {
   const audio = document.getElementById('audioPlayer');
   if (!CONFIG.musicaSrc) {
-    document.querySelector('.music-hint').textContent = '💡 Adicione o arquivo .mp3 no campo musicaSrc do código';
+    document.getElementById('musicHint').textContent = '💡 Adicione o arquivo .mp3 no campo musicaSrc do código ou use o botão acima';
     shakeMusicCard();
     return;
   }
@@ -1208,7 +1308,73 @@ function restartQuiz() {
 }
 
 /* =====================================================
-   🌸  PÉTALAS CAINDO
+   �  JOGO DA MEMÓRIA
+   ===================================================== */
+const memoryEmojis = ['💖', '🌸', '✨', '🍓', '☁️', '🌙'];
+let memoryCards = [];
+let memoryFlipped = [];
+let memoryMoves = 0;
+let memoryLock = false;
+
+function initMemoryGame() {
+  const pairs = [...memoryEmojis, ...memoryEmojis];
+  memoryCards = pairs.sort(() => Math.random() - 0.5);
+  memoryFlipped = [];
+  memoryMoves = 0;
+  memoryLock = false;
+  document.getElementById('memoryMoves').textContent = '0 jogadas';
+  document.getElementById('memoryStatus').textContent = 'Encontre os pares de emojis';
+  const board = document.getElementById('memoryBoard');
+  board.innerHTML = memoryCards.map((emoji, i) => `
+    <button class="memory-card" data-index="${i}" onclick="flipMemoryCard(${i})" type="button">❓</button>
+  `).join('');
+}
+
+function flipMemoryCard(index) {
+  if (memoryLock || memoryFlipped.includes(index) || memoryCards[index] === null) return;
+
+  const card = document.querySelector(`.memory-card[data-index="${index}"]`);
+  card.textContent = memoryCards[index];
+  card.classList.add('flipped');
+  memoryFlipped.push(index);
+  memoryMoves += 1;
+  document.getElementById('memoryMoves').textContent = `${memoryMoves} jogadas`;
+
+  if (memoryFlipped.length === 2) {
+    const [first, second] = memoryFlipped;
+    memoryLock = true;
+    if (memoryCards[first] === memoryCards[second]) {
+      document.querySelectorAll('.memory-card').forEach((item) => {
+        if (Number(item.dataset.index) === first || Number(item.dataset.index) === second) {
+          item.classList.add('matched');
+          item.classList.add('locked');
+        }
+      });
+      memoryCards[first] = null;
+      memoryCards[second] = null;
+      memoryFlipped = [];
+      memoryLock = false;
+      if (!memoryCards.some(Boolean)) {
+        document.getElementById('memoryStatus').textContent = 'Você venceu! 💕 Quer jogar de novo?';
+      }
+    } else {
+      setTimeout(() => {
+        document.querySelectorAll('.memory-card').forEach((item) => {
+          const idx = Number(item.dataset.index);
+          if (idx === first || idx === second) {
+            item.textContent = '❓';
+            item.classList.remove('flipped');
+          }
+        });
+        memoryFlipped = [];
+        memoryLock = false;
+      }, 800);
+    }
+  }
+}
+
+/* =====================================================
+   �🌸  PÉTALAS CAINDO
    ===================================================== */
 function startPetals() {
   const canvas = document.getElementById('petals-canvas');
@@ -1277,14 +1443,18 @@ function startPetals() {
 function enterPage() {
   document.getElementById('splash').classList.add('hidden');
   document.getElementById('main-content').style.display = 'block';
-  // Tenta tocar música automaticamente após interação do usuário
   const audio = document.getElementById('audioPlayer');
   if (CONFIG.musicaSrc) {
+    audio.src = CONFIG.musicaSrc;
+    audio.load();
     audio.play().then(() => {
       isPlaying = true;
       updatePlayBtn();
       document.getElementById('musicCover').classList.add('spinning');
-    }).catch(() => {});
+      document.getElementById('musicHint').textContent = '▶ Música tocando agora';
+    }).catch(() => {
+      document.getElementById('musicHint').textContent = 'Clique no botão ▶ para iniciar a música';
+    });
   }
 }
 
