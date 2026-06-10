@@ -722,9 +722,9 @@
 
     <!-- NOMES: troque pelo nome de vocês -->
     <p class="hero-names" id="heroNames">
-      <span class="e" id="nomeEle">Seu Nome</span>
+      <span class="e" id="nomeEle">Yuri</span>
       &nbsp;♥&nbsp;
-      <span id="nomeEla">Nome Dela</span>
+      <span id="nomeEla">Willmara</span>
     </p>
 
     <p class="hero-subtitle">Cada dia ao seu lado é um presente<br>que eu nunca quero devolver.</p>
@@ -836,7 +836,7 @@
     <p class="section-eyebrow">🎬 Nosso Vídeo</p>
     <h2 class="section-title">Um Momento<br>Especial</h2>
     <div class="video-wrapper" id="videoWrapper">
-      <video src="https://pub-940eb15938f440928938009dde0f6d67.r2.dev/fotos-dela/pricipal.mp4" controls playsinline poster="" style="width:100%; height:100%; object-fit:cover; display:block;"></video>
+      <video src="https://pub-940eb15938f440928938009dde0f6d67.r2.dev/fotos-dela/WhatsApp%20Video%202026-06-09%20at%2013.50.41.mp4" controls playsinline poster="" style="width:100%; height:100%; object-fit:cover; display:block;"></video>
     </div>
   </section>
 
@@ -860,8 +860,8 @@
 
 const CONFIG = {
   // NOMES
-  nomeEle: "Seu Nome",          // ← coloque SEU nome
-  nomeEla: "Nome Dela",         // ← coloque o nome dela
+  nomeEle: "Yuri",          // ← coloque SEU nome
+  nomeEla: "Willmara",         // ← coloque o nome dela
 
   // DATA DE INÍCIO DO RELACIONAMENTO
   // Formato: new Date(ANO, MÊS-1, DIA)  ex: new Date(2022, 5, 12) = 12 de junho de 2022
@@ -871,14 +871,22 @@ const CONFIG = {
   // Opção A: mp3 local  → musicSrc: "musica.mp3"
   // Opção B: YouTube    → cole o link do YouTube abaixo (só funciona se o vídeo permitir embed)
   musicaSong: "Farol das Estrelas",   // ← nome da música
-  musicaArtist: "—",                  // ← nome do artista
+  musicaArtist: "belo",                  // ← nome do artista
   musicaSrc: "",                  // ← caminho do .mp3 (ex: "nossa_musica.mp3") — deixe "" para demo
 
   // CARTA: assinar com
   cartaAssinatura: "Com todo meu amor ❤️",  // ← edite
 
   // TEXTO DA CARTA (use \n\n para parágrafos)
-  cartaTexto: `Amor meu,\n\nExistem palavras que o dicionário ainda não inventou para descrever o que sinto por você. Cada manhã ao seu lado me lembra o porquê de tudo fazer sentido. Você transformou meu mundo em algo mais bonito, mais colorido, mais completo.\n\nObrigado por cada sorriso, por cada abraço, por cada momento simples que se tornou extraordinário ao seu lado. Eu te escolho hoje, amanhã e em todos os dias que ainda virão.\n\nCom todo o meu amor,`,
+  cartaTexto: `Amor meu,
+
+Quem diria que aquele garoto de 19 anos chegaria até aqui? Olho para trás e lembro de tantas batalhas... De quando moramos na casa dos seus pais, de eu trabalhando na capital, enfrentando 140 km de estrada todos os dias só para conseguir dormir ao seu lado. Lembro do aperto, de ganhar pouco, mas da certeza absoluta de que não deixaria faltar nada para nós.
+
+E hoje, ver a gente na nossa própria casa, passando nossos dias juntos, me faz perceber que a palavra que mais define o que sinto é admiração.
+
+Eu admiro, todos os dias, a mulher incrível, forte, linda, sensível, compreensiva e gigante que você é. Você é a minha inspiração para bater de frente com qualquer problema e vencer por nós. Obrigado por ter confiado naquele garoto e por construir, lado a lado comigo, a família que é o nosso maior orgulho. Eu te escolho hoje, amanhã e em todos os dias que ainda virão.
+
+Com todo o meu amor ❤️`,
 
   // FOTOS DA GALERIA
   // Para cada foto: { src: "foto1.jpg", caption: "Legenda" }
@@ -900,43 +908,68 @@ const CONFIG = {
 
   // NOSSA HISTÓRIA (linha do tempo)
   historia: [
-    { data: "Edite a data", titulo: "O Início de Tudo", texto: "Descreva como vocês se conheceram..." },
-    { data: "Edite a data", titulo: "Nosso Primeiro Encontro", texto: "Conte sobre o primeiro encontro de vocês..." },
-    { data: "Edite a data", titulo: "Ficamos Juntos", texto: "O dia em que tudo ficou oficial..." },
-    { data: "Edite a data", titulo: "Nossa Primeira Viagem", texto: "Descreva a aventura de vocês..." },
-    { data: "Hoje", titulo: "Mais Apaixonado do Que Nunca", texto: "E aqui estamos, mais fortes e apaixonados a cada dia." },
+    { 
+      data: "28 de setembro", 
+      titulo: "O Início de Tudo", 
+      texto: "Desde o primeiro momento em que te vi, soube que você era especial. Nunca vou esquecer do dia em que nos conhecemos, eu te levando água enquanto você ajudava a arrumar aquela hamburgueria falida. Mal sabíamos que ali começava a nossa própria história." 
+    },
+    { 
+      data: "15 de novembro", 
+      titulo: "Nosso Primeiro Encontro", 
+      texto: "O dia em que finalmente ficamos juntos. Você preparou aquele jantar especial na sua casa — simples, mas transbordando um amor que eu nunca tinha sentido antes. Foi ali que nossos corpos e nossos destinos se uniram pela primeira vez." 
+    },
+    { 
+      data: "Edite a data", 
+      titulo: "O Frio na Barriga em Rosário", 
+      texto: "O dia de conhecer os seus pais em Rosário. Lembra do frio absurdo na barriga? Aqueles olhares cheios de medo do início hoje se transformaram em puro amor, carinho e cumplicidade pela família linda que construímos juntos." 
+    },
+    { 
+      data: "Edite a data", 
+      titulo: "A Base de Confiança", 
+      texto: "Quero que você saiba o quanto sou grato por você ter acreditado e confiado em mim, mesmo quando o futuro era só uma promessa. O teu voto de confiança me deu forças para ser o homem que sou hoje." 
+    },
+    { 
+      data: "Edite a data", 
+      titulo: "O Fruto do Nosso Amor", 
+      texto: "E o nosso amor gerou vida. O maior presente de todos, o nosso filho, o nosso jogador! Ver ele crescendo é ter a certeza diária de que tudo valeu a pena e de que somos abençoados." 
+    },
+    { 
+      data: "Hoje", 
+      titulo: "Mais Apaixonado do Que Nunca", 
+      texto: "Olhar para trás e ver como evoluímos como casal e como pessoas é de orgulhar o coração. Escolhemos viver o nosso amor todos os dias. Mesmo no meio do caos e da rotina, a nossa escolha sempre será nos amar, nos apoiar e seguir em frente. Mais fortes do que nunca." 
+    }
   ],
 
   // QUIZ — edite perguntas e respostas
   // respostaCerta: índice da resposta certa (0 = primeira, 1 = segunda...)
   quiz: [
     {
-      pergunta: "Qual é a minha comida favorita?",
-      opcoes: ["Pizza", "Hambúrguer", "Sushi", "Churrasco"],
-      certa: 0,  // ← índice da resposta certa
+      pergunta: "Qual sabor eu mais gosto?",
+      opcoes: ["Pizza", "portuguesa", "frango catupiry", "marguerita"],
+      certa: 2,  // ← índice da resposta certa
       emoji: "🍕"
     },
     {
-      pergunta: "Qual foi nosso primeiro filme juntos?",
-      opcoes: ["Edite opção 1", "Edite opção 2", "Edite opção 3", "Edite opção 4"],
-      certa: 0,
+      pergunta: "tipo de musica que eu gosto?",
+      opcoes: ["oruam", "rock", "mbp", "funk"],
+      certa: 2,
       emoji: "🎬"
     },
     {
-      pergunta: "O que mais me faz sorrir?",
-      opcoes: ["Edite opção 1", "Edite opção 2", "Você!", "Edite opção 4"],
+      pergunta: "O que eu mais gosto de fazer?",
+      opcoes: ["jogar", "cozinhar", "Momozin", "soltar pipa na chuva"],
       certa: 2,
       emoji: "😊"
     },
     {
-      pergunta: "Qual é a minha música favorita?",
-      opcoes: ["Edite opção 1", "Edite opção 2", "Edite opção 3", "Edite opção 4"],
+      pergunta: "qual jogo eu mais gosto?",
+      opcoes: ["csgo", "pubg", "lol", "god of war"],
       certa: 0,
       emoji: "🎵"
     },
     {
-      pergunta: "Se eu pudesse ir a qualquer lugar agora, seria...",
-      opcoes: ["Paris", "Maldivas", "Onde quer que você esteja", "Nova York"],
+      pergunta: "Aonde eu mais quero morar ? ",
+      opcoes: ["piporó", "Rio de janeiro", "Onde quer que você esteja", "são luis"],
       certa: 2,
       emoji: "✈️"
     },
